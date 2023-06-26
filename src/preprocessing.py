@@ -56,7 +56,6 @@ def Stemmer(text):
 
 #Data preprocessing
 def data_cleaning(content):
-    content=content.lower()
     content = contraction_expansion(content)
     content = remove_extra_white_spaces(content)
     content = remove_url(content)
