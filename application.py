@@ -1,5 +1,7 @@
 from flask import Flask,request, render_template,jsonify
-from src.prediction_pipeline import CustomData,PredictPipeline
+
+import pickle
+import pandas as pd
 
 
 application=Flask(__name__)
@@ -17,18 +19,26 @@ def predict_datapoint():
     
 
     else:
-        data=CustomData(
-            text=(request.form.get('text')),
-            
-        )
+        data = request.form.get('text')
+        new_data=pd.Series(data=data)
 
-        final_new_data=data.get_data_as_dataframe()
-        predict_pipeline=PredictPipeline()
-        pred=predict_pipeline.predict(final_new_data['text'])
+        
 
-        result=pred
+        with open('classifier.pkl','rb') as file_obj:
+          model=pickle.load(file_obj)
+        
+        result=model.predict_proba(new_data)
 
-        return render_template('form.html',final_result=result)
+        final_result={
+            'Negative: ':result[:][0][0],
+            'Positive: ':result[:][0][1]
+        }
+
+
+
+
+
+        return render_template('form.html',final_result=final_result)
     
 
 

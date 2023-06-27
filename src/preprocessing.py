@@ -61,7 +61,8 @@ def data_cleaning(content):
     content = remove_url(content)
     content=remove_special(content)
     content = remove_stopwords(content)
-    content=Stemmer(content)  
+    content=Stemmer(content) 
+    content= ' '.join(content)
       
     return content
 
