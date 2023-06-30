@@ -13,6 +13,9 @@ from src.preprocessing import DataCleaning
 from src.preprocessing import Stemmer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
+from sklearn.naive_bayes import MultinomialNB
+from catboost import CatBoostClassifier
+from sklearn.ensemble import StackingClassifier
 
 from sklearn.model_selection import train_test_split
 
@@ -25,7 +28,18 @@ y=df['emotion']
 X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.2, random_state=42,stratify=y)
 tfidf=TfidfVectorizer(max_features=2000,ngram_range=(1,2))
 
+
 lr=LogisticRegression(solver='liblinear')
+mnb=MultinomialNB()
+cat=CatBoostClassifier()
+
+estimators=[
+    ('lr',lr),
+    ('mnb',mnb),
+    ('cat',cat)
+]
+
+stack_model=StackingClassifier(estimators=estimators,final_estimator=LogisticRegression())
 
 
 
@@ -36,7 +50,7 @@ lr=LogisticRegression(solver='liblinear')
 classifier=Pipeline(steps=[
     ('cleaner',DataCleaning()),
     ('vectorizer',tfidf),
-    ('model',lr)
+    ('model',stack_model)
 
 ])
 

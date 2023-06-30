@@ -7,6 +7,9 @@ Flask
 nltk
 spacy
 regex
-PyTorch
-transformers
-#-e . 
+#torch
+#torchvision 
+#torchaudio
+#transformers
+catboost
+#-e .
