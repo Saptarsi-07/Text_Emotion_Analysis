@@ -7,4 +7,6 @@ Flask
 nltk
 spacy
 regex
-#-e .
+PyTorch
+transformers
+#-e . 
