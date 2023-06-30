@@ -31,7 +31,7 @@ tfidf=TfidfVectorizer(max_features=2000,ngram_range=(1,2))
 
 lr=LogisticRegression(solver='liblinear')
 mnb=MultinomialNB()
-cat=CatBoostClassifier()
+cat=CatBoostClassifier(verbose=False,iterations=200)
 
 estimators=[
     ('lr',lr),
